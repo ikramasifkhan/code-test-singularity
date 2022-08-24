@@ -51,6 +51,8 @@ class OutletController extends Controller
             DB::beginTransaction();
             $outletData = $request->except('image');
             $outlet = Outlet::create($outletData);
+
+            //store image
             if(request()->hasFile('image')){
                 $service->addImage('outlet', $outlet->id, Outlet::class);
             }
@@ -98,6 +100,8 @@ class OutletController extends Controller
             DB::beginTransaction();
             $outletData = $request->except('image');
             $outlet->update($outletData);
+
+            //image upload
             if ($request->hasFile('image')) {
                 $image = Image::where(['imageable_id'=>$outlet->id, 'imageable_type'=>Outlet::class])->first();
                 if(isset($image)){
@@ -128,9 +132,12 @@ class OutletController extends Controller
             $outlet->delete();
             $image = Image::where(['imageable_id'=>$outlet->id, 'imageable_type'=>Outlet::class])->first();
             $filePath = storage_path('app/public/outlet/'. $image->image_name);
+
+            //delete the image from the storage folder
             if (file_exists($filePath)) {
                 unlink($filePath);
             }
+            //delete image data from database
             $image->delete();
             DB::commit();
             $data = new OutletResource($outlet);

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class OutletRequest extends FormRequest
 {
@@ -25,8 +27,8 @@ class OutletRequest extends FormRequest
     {
         $commonData = [
             'name'=>'required',
-            'latitude'=>'required',
-            'longitude'=>'required',
+            'latitude'=>'required|numeric|min:-90|max:90',
+            'longitude'=>'required|numeric|min:-180|max:180',
             'image'=>"required|image"
         ];
         switch ($this->method()) {
@@ -41,5 +43,10 @@ class OutletRequest extends FormRequest
                 ]);
                 break;
         }
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        return response()->sendValidationError($validator->errors());
     }
 }

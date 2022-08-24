@@ -20,8 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
     Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
-    Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
-    Route::post('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
-    Route::apiResource('users', \App\Http\Controllers\Api\UserController::class);
-    Route::apiResource('outlets', \App\Http\Controllers\Api\OutletController::class);
+    Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
+        Route::apiResource('users', \App\Http\Controllers\Api\UserController::class);
+        Route::apiResource('outlets', \App\Http\Controllers\Api\OutletController::class);
+    });
 });

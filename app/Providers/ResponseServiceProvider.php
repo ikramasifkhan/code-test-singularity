@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Response;
@@ -52,6 +53,20 @@ class ResponseServiceProvider extends ServiceProvider
                 'error'=>'true',
                 'errorMessage' =>$error,
             ], $code);
+        });
+
+        Response::macro('sendValidationError', function ($errors) {
+//            Log::info($exception->getMessage());
+//            return \response()->json([
+//                'success'=>false,
+//                'error'=>'true',
+//                'errorMessage' =>$error,
+//            ], $code);
+            throw new HttpResponseException(response()->json([
+                'success'=>false,
+                'error'=>true,
+                'errorMessage'=>$errors,
+            ], 422));
         });
     }
 }
