@@ -10,6 +10,7 @@
 - Run mv .env.example .env
 - Make a database and name it "code-test"
 - Run php artisan migrate
+- Run php artisan db:seed
 - Run php artisan passport:install
 - Run php artisan serve
 - Run php artisan storage:link
