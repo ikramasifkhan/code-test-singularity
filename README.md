@@ -7,7 +7,7 @@
 ## Install Process
 - Run git clone https://github.com/ikramasifkhan/code-test-singularity.git
 - Run componser install
-- Make .env.example file to .env file
+    - Run mv .env.example .env
 - Make a database and name it "code-test"
 - Run php artisan migrate
 - Run php artisan passport:install
