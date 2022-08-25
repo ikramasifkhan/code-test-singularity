@@ -12,3 +12,4 @@
 - Run php artisan migrate
 - Run php artisan passport:install
 - Run php artisan serve
+- Run php artisan storage:link
